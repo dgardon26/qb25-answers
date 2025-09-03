@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+
+import sys
+
+GTEx_file = open(sys.argv[1])
+
+_ = GTEx_file.readline()
+_ = GTEx_file.readline()
+
+header_line = GTEx_file.readline()
+
+header_line = header_line.strip("\n")
+
+header_fields = header_line.split("\t")
+
+data_line = GTEx_file.readline()
+
+data_line = data_line.strip("\n")
+
+data_fields = data_line.split("\t")
+
+GTEx_dictionary = {}
+
+for i in range(len(header_fields)):
+    GTEx_dictionary[header_fields[i]] = data_fields[i]
+
+metadata = "/Users/cmdb/Data/GTEx/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt"
+
+for line in open(metadata):
+    
+    fields = line.split("\t")
+    if fields[0] in GTEx_dictionary:
+        print(str(fields[0]) + "\t" +  str("placeholder") + "\t" + str(fields[6]) + "\n")
+
+
+
+
+
+
+
