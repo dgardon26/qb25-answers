@@ -1,5 +1,5 @@
 # My Mini Project 1
-# Uses FASTA to read c.elegans data
+# Uses FASTA to read c.elegans genomic sequencing data
 
 # Links to Data
 link 1: https://ftp.ebi.ac.uk/pub/databases/wormbase/parasite/releases/WBPS19/species/caenorhabditis_remanei/PRJNA248909/caenorhabditis_remanei.PRJNA248909.WBPS19.genomic.fa.gz 
