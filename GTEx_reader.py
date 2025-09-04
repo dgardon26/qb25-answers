@@ -36,9 +36,11 @@ for line in open(metadata):
         continue
 
     elif fields[0] in GTEx_dictionary:
-        print(str(fields[0]) + "\t" +  str(GTEx_dictionary.get(fields[0])) + "\t" + str(fields[6]) + "\n")
+        print(str(fields[0]) + "\t" +  str(GTEx_dictionary.get(fields[0])) + "\t" + str(fields[6]))
 
-
+# input to use in terminal to get first three non-zero tissues
+# ./GTEx_reader.py ~/Data/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz | sort -k 2 | awk '$2 != 0 {print $2,$3}' | sort | head -3
+# Tissues are: Artery, Kidney, Brain
 
 
 
