@@ -2,18 +2,20 @@
 
 import sys
 
-GTEx_file = open(sys.argv[1])
+import gzip
+
+GTEx_file = gzip.open(sys.argv[1])
 
 _ = GTEx_file.readline()
 _ = GTEx_file.readline()
 
-header_line = GTEx_file.readline()
+header_line = GTEx_file.readline().decode()
 
 header_line = header_line.strip("\n")
 
 header_fields = header_line.split("\t")
 
-data_line = GTEx_file.readline()
+data_line = GTEx_file.readline().decode()
 
 data_line = data_line.strip("\n")
 
@@ -29,8 +31,12 @@ metadata = "/Users/cmdb/Data/GTEx/GTEx_Analysis_v8_Annotations_SampleAttributesD
 for line in open(metadata):
     
     fields = line.split("\t")
-    if fields[0] in GTEx_dictionary:
-        print(str(fields[0]) + "\t" +  str("placeholder") + "\t" + str(fields[6]) + "\n")
+
+    if fields[0] not in GTEx_dictionary:
+        continue
+
+    elif fields[0] in GTEx_dictionary:
+        print(str(fields[0]) + "\t" +  str(GTEx_dictionary.get(fields[0])) + "\t" + str(fields[6]) + "\n")
 
 
 
