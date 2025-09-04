@@ -11,4 +11,30 @@
 # 141 MB for link 3
 # 127 MB for link 4
 
+# To use script:
+# run it in terminal with a .fa file as input
+
+
+# Result Summary:
+
+# Link 1:
+# Number of contigs - 1591
+# Total length - 118549266
+# Average length - 74512.42363293526
+
+# Link 2: 
+# Number of contigs - 912
+# Total length - 124541912
+# Average length - 136559.11403508772
+
+# Link 3:
+# Number of contigs - 3670
+# Total length - 145442736
+# Average length - 39630.17329700272
+
+# Link 4:
+# Number of contigs - 187
+# Total length - 130480874
+# Average length - 697758.6844919786
+
 
