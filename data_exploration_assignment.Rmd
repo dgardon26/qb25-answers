@@ -1,0 +1,257 @@
+In this exercise, you will practice basic `dplyr` (the relevant package within `tidyverse`) operations on a dataset of gene expression levels across human tissues (from the GTEx Project). The dataset (`dt`) has one row per gene, with columns:
+
+-   `Name`: the Ensembl gene ID\
+-   `Description`: the gene symbol
+-   One column per tissue containing the median expression levels (in TPM units)
+
+------------------------------------------------------------------------
+
+### Start by loading the data into R:
+
+Note the arguments, which specify that the first two lines of the file will be skipped, that the file contains a header line that should be used to form column names, and that the columns are tab (`\t`) separated.
+
+
+dt <- read_delim("~/Data/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz", skip = 2, col_names = TRUE, delim = "\t")
+
+library(tidyverse)
+
+head(dt)
+
+
+### Q1. How many genes are in the dataset, and how many tissues are represented?
+
+```{r}
+
+dt %>%
+   select("Name") %>%
+   dim() %>% 
+  .[1]
+
+# There are 56200 genes in the dataset.
+
+head(dt)
+
+dt %>%
+  dim() %>%
+  .[2] - 2
+
+# There are 54 tissues in the dataset.
+```
+
+------------------------------------------------------------------------
+
+### Q2. How many genes are expressed above a given threshold in each tissue?
+
+A common threshold is 1 TPM to define whether a gene is "expressed."\
+Compute, for each of the three tissues, `Liver`, `Testis`, and `Whole Blood`, how many genes are expressed above this threshold.\
+Then identify which tissue has the **most** and which has the **fewest** expressed genes. See this paper for one possible explanation: Xia et al. 2021: [PMC7891839](https://pmc.ncbi.nlm.nih.gov/articles/PMC7891839/).
+
+Do the results change if you set the threshold higher, say at 10 TPM?
+
+```{r}
+
+# Code here
+
+dt %>%
+  arrange(Liver) %>%
+  filter(Liver > 1) %>%
+  dim() %>%
+  .[1]
+
+dt %>%
+  arrange(Testis) %>%
+  filter(Testis > 1) %>%
+  dim() %>%
+  .[1]
+
+dt %>%
+  arrange(`Whole Blood`) %>%
+  filter(`Whole Blood` > 1) %>%
+  dim() %>%
+  .[1]
+
+dt %>%
+  arrange(Liver) %>%
+  filter(Liver > 10) %>%
+  dim() %>%
+  .[1]
+
+dt %>%
+  arrange(Testis) %>%
+  filter(Testis > 10) %>%
+  dim() %>%
+  .[1]
+
+dt %>%
+  arrange(`Whole Blood`) %>%
+  filter(`Whole Blood` > 10) %>%
+  dim() %>%
+  .[1]
+  
+
+# Interpretation here as a comment
+# When set to 1 TPM, Liver returns 13499 genes, Testis returns 25064 genes
+# and Whole Blood returns 11616 genes.
+
+# When set to 10 TPM, Liver returns 5132 genes, Testis returns 11471 genes
+# and Whole Blood returns 4482 genes, so yes, the results change pretty
+# significantly when the threshold is set higher.
+
+```
+
+------------------------------------------------------------------------
+
+### Q3. What are the 20 most highly expressed genes in the liver?
+
+What do you notice about many of the genes in this list? Can you propose a hypothesis to explain your observation?
+
+```{r}
+
+# Code here
+
+dt %>%
+  arrange(desc(Liver)) %>%
+  .[1:20, ]
+
+# This is giving the 20 most expressed genes in the liver in the entire table, would need to add 1 after the comma if you just wanted the gene names.
+
+# Interpretation here as a comment
+# Examining these genes in other tissues, most of them have very low relative expression in the rest of these tissues, but with one exception. Looking at kidney - medulla, there seems to be an association with very high expression of these genes in the liver and at least fairly high expression of those genes in the kidney, specifically the medulla. The medulla of the kidney, to my recollection, plays a role in filtering waste, so since the liver plays similar roles, these genes being highly expressed in one when expressed in the other seems to make sense. My hypothesis would be that these genes are related to filtering and the body's waste management.
+
+```
+
+------------------------------------------------------------------------
+
+### Q4. Compare the mean expression levels of mitochondrial versus nuclear-encoded genes in the Liver.
+
+Genes encoded by the mitochondrial genome have the gene symbol prefix `MT-`. The function `str_starts()` from the `stringr` package in `tidyverse` tests whether a string (or a vector of strings) start with a given pattern, returning TRUE/FALSE (or a boolean vector) as output.
+
+Use `str_starts()` to identify which genes are mitochondrially encoded and store this information in a new Boolean column named `is_mitochondrial`. Next, compute the mean and median expression of mitochondrial genes in the liver, as well as the mean and median expression of nuclear-encoded genes in the liver and compare them. Do mitochondrial genes exhibit higher or lower mean and median expression than nuclear genes? What does the difference between the mean and median tell you about the distribution of gene expression.
+
+```{r}
+# Code here
+
+dt_addition <- dt %>%
+   mutate(is_mitochondrial = str_starts(Description, "MT-")) 
+ 
+ dt_addition %>%
+   filter(is_mitochondrial == TRUE) %>%
+   summarize(mean_liverMT = mean(Liver, na.rm = TRUE))
+ 
+ dt_addition %>%
+   filter(is_mitochondrial == FALSE) %>%
+   summarize(mean_liverN = mean(Liver, na.rm = TRUE))
+ 
+  dt_addition %>%
+   filter(is_mitochondrial == TRUE) %>%
+   summarize(median_liverMT = median(Liver, na.rm = TRUE))
+  
+   dt_addition %>%
+   filter(is_mitochondrial == FALSE) %>%
+   summarize(median_liverN = median(Liver, na.rm = TRUE))
+   
+ # Interpretation here as a comment
+ # The mean and median of mitochondrial genes is 11592.72 and 3.40258 in the liver versus 8.373839 and 0 for nuclear genes, respectively. Overaell mitochondrial genes display both a higher mean and median expression than nuclear genes. In essence, this tells us that the distribution of gene expression will have many more mitochondrial gene at the highest extremes of expression, and that in general mitochondrial expression is still a little higher than nuclear expression.
+
+# dt %>%
+# dplyr::select(Description, Liver, is_mitochondrial) %>%
+#  dplyr::summarise(mean_exp = mean(Liver, na.rm = T))
+
+
+   
+# dt <- read_delim("~/Data/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz", skip =2, col_names = TRUE, delim = "\t")
+
+## dt %>%
+# dplyr::mutate(is_mitochonrial = str_starts(Description, "MT-")) %>%
+# dplyr::select(Description, Liver, is_mitochonrial) %>%
+# dplyr::group_by(is_mitochonrial) %>%
+# dplyr::summarise(mean_exp = mean(Liver))
+
+
+# Trueeee <- something %>% dplyr::filter(is_mitochonrial == T)
+# print(mean(Trueeee$Liver, na.rm = T))
+# Falseee <- something %>% dplyr::filter(is_mitochonrial == F)
+# print(mean(Falseee$Liver, na.rm = T))
+```
+
+------------------------------------------------------------------------
+
+### Q5. Are liver’s most highly expressed genes also highly expressed in another tissue?
+
+Take the 20 most highly exprssed genes in **Liver** and check how they are expressed in the **Heart - Left Ventricle**. Identify:\
+1. one gene that is highly expressed in both tissues\
+2. one gene that is highly expressed in Liver but very low in Heart
+
+Look up basic information about these genes on the internet. Do their expression patterns make sense given their known functions?
+
+```{r}
+
+# Code here
+
+dt %>%
+  arrange(desc(Liver)) %>%
+  .[1:20, ] %>%
+  arrange(desc(`Heart - Left Ventricle`))
+
+# Interpretation here as a comment
+# One gene that is getting highly expressed in both the liver and heart is ENSG00000198804.2.
+# One gene that is highly expressed in the liver but not the heart is ENSG00000163631.16.
+# The first gene is a mitochrondially encoded cytochrome C oxidase/Complex IV, a protein involved in the electron transport chain. The second gene is for albumin, a protein that is made by the liver that circulates in blood. These expression patterns make sense, as a mitochondrially encoded protein involved in the electron transport chain would be involved and would therefore be involved in oxidative phosphorylation, a process that takes place all across the body at high levels. In contrast, albumin is specifically produced in the liver, so it makes sense it'd be very high in the liver and very low expression levels in the heart.
+
+# 
+```
+
+------------------------------------------------------------------------
+
+### Q6. Comparing gene expression between tissues
+
+Another way to compare tissues is to ask how similar are their expression patterns overall, across all genes?
+
+R has a built-in function called `cor.test()` that measures the correlation between two vectors of numbers. Remember that you can extract the contents of a given column of a tibble as a vector using the syntax `tibble_name$column_name`. If a column name contains spaces, enclose the column name in backticks such as `` tibble_name$`column name` ``.
+
+Use `cor.test()` with the argument `method = "kendall"` to compute: - the Spearman correlation between `Liver` and `Heart - Left Ventricle` - the Spearman correlation between `Liver` and `Brian - Cortex`
+
+Which pair of tissues is more strongly correlated? Does this result make sense biologically?
+
+```{r}
+# Liver vs Heart answer
+
+cor.test(dt$Liver, dt$`Heart - Left Ventricle`, method = "kendall")
+
+# Kendall's rank correlation tau
+
+# data:  dt$Liver and dt$`Heart - Left Ventricle`
+# z = 241.7, p-value < 2.2e-16
+# alternative hypothesis: true tau is not equal to 0
+# sample estimates:
+#     tau 
+# 0.8053218 
+
+
+# Liver vs Brain answer
+
+cor.test(dt$Liver, dt$`Brain - Cortex`, method = "kendall")
+
+# Kendall's rank correlation tau
+
+# data:  dt$Liver and dt$`Brain - Cortex`
+# z = 223.7, p-value < 2.2e-16
+# alternative hypothesis: true tau is not equal to 0
+# sample estimates:
+#     tau 
+# 0.7342544 
+
+# interpretation
+
+# Both Tau values are positive, suggesting expression is positively correlated for both liver/heart and liver/brain, in that higher expression is pretty strongly correlated in both. This also tells us that the correlation is stronger between liver/heart than liver/brain, which might have to do with the fact that the liver and heart are more closely related in having direct roles in the circulatory system versus the brain not being directly in that system.
+```
+
+------------------------------------------------------------------------
+
+### Optional: further exploration
+
+What other patterns are present in the data? Use tidyverse functions to explore and summarize the data in different ways and see what you can learn.
+
+```{r}
+# answer here
+```
