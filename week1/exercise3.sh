@@ -9,9 +9,13 @@ bedtools intersect -v -a nhlf-active.bed -b nhlf-repressed.bed | wc -l
 bedtools intersect -a nhek-active.bed -b nhlf-active.bed | wc -l
 #12174 lines
 
-bedtools intersect -a nhek-active.bed -b nhlf-repressed.bed | wc -l
-#359 lines, which sums up to less than the number of features in nhek-active.bed (14013). This suggests that I am not "double-counting"
-#any overlaps in the current data set (?????? ask about this at office hours)
+bedtools intersect -v -a nhek-active.bed -b nhlf-active.bed | wc -l
+#2405 lines, which sums up to 14579, more than the total number of lines that exist in nhek-active.bed.
+
+bedtools intersect -u -a nhek-active.bed -b nhlf-active.bed | wc -l
+# Using this modifier just tells if if there were any hits, (>=1), rather than counting each hit separately. This reduces the
+# output here to 11608. This plus 2405 in total adds up to 14013, which is the correct number of lines in nhek and tells us we're
+# getting one feature per hit now.
 
 bedtools intersect -f 1 -a nhek-active.bed -b nhlf-active.bed | head
 # the head is just to make it convienent to copy paste the coordinates of the first feature (chr1	25558413	25559413)
