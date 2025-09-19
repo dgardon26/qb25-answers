@@ -39,5 +39,7 @@ for i in sam_reads:
     print(i + " " + str(sam_reads[i]))
 
 sorted_NM_counts = sorted(NM_count.items())
-print(sorted_NM_counts)
+
+for i in sorted_NM_counts:
+    print(i)
 
