@@ -41,5 +41,5 @@ for i in sam_reads:
 sorted_NM_counts = sorted(NM_count.items())
 
 for i in sorted_NM_counts:
-    print(i)
+    print(str(i[0]) + " " + str(i[1]))
 
