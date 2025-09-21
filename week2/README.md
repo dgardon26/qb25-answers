@@ -20,4 +20,12 @@ samtools sort -o longreads.bam longreads.sam
 
 samtools index longreads.bam
 
+# Exercise 5
 
+hisat2 -x ../genomes/sacCer3 -U ~/qb25-answers/week2/rawdata/SRR10143769.fastq > SRRhisat2.sam
+
+samtools sort -o SRRhisat2.bam SRRhisat2.sam 
+
+samtools index SRRhisat2.bam
+
+The region selected happens to have 4 active genes with at least 20 reads: FUN26, CCR4, ATS1 and FUN30. The parts of the genes with the most coverage generally seem to around the boundaries of the gene, as pretty much all the reads for all of these genes are on one of the ends. Assuming the arrows indicate direction the gene is meant to be read in, even more specifically then, the reads seem to be clustered around the end/stop site of the gene specifically, as this would be true of all four of the genes.
