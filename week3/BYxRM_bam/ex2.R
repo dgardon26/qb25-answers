@@ -21,13 +21,13 @@ ggplot(data = other_items, aes(x = V1)) +
   labs(
     x = "Read Depth",
     y = "Count") + 
-  xlim(0, 200)
+  xlim(0, 20)
 
-# Question 2.2: This suggests that most of the read depths are around 50, which represents
-# the number of times any given site was read during the sequencing process. This experiment
-# utilized short read sequencing, so it makes sense that there would be a lot of reads (30-70)
-# at most sites. There are very few outliers with significantly higher read depth, and these might be sites
-# with high repetition that are getting flagged many more times than an average, more recognizable
-# sequence (example: something with 1000 reads might be the same sequence from different places). This is a
-# right tailed/positively skewed distribution. 
+# Question 2.2: This suggests that most of the read depths are around 5, with most being between 5-10, which represents
+# the number of times any given site was read during the sequencing process. It seems like in this case because each variant site
+# was read for each sample, the number of read depths for any specific sample is not super high, but collectively across the genome you are 
+# getting many of these reads for each variant site you're checking. This surprised me a little bit,
+# as I would have expected slightly higher read depth per sample, but given the numbers being tested here shallower 
+# reads does make sense since that should be sensitive enough to identify which allele a given site might be
+# (and thus which parent it came from). This is a right tailed/positively skewed distribution. 
 
