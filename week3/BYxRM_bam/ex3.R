@@ -26,6 +26,9 @@ ggplot(filtered_genotype, aes(x = V3, y = V1, color = genotypes)) +
 
 A01_62 <- filter(genotype, V1 == "A01_62")
 genotypes_62 <- as.factor(A01_62$V4)
+ 
+# make fake genotype column with a bunch of 1s or whatever so I don't need to put y = V1
+# because that's probably causing issues on the second plot 
 
 ggplot(A01_62, aes(x = V3, y = V1, color = genotypes_62)) +
   geom_point() +
@@ -40,5 +43,27 @@ ggplot(A01_62, aes(x = V3, y = V1, color = genotypes_62)) +
   ) +
   facet_grid(A01_62$V2 ~ ., scales = "free_x", space = "free_x")
 
+genotypes_color <- as.factor(genotype$V4)
 
+#ggplot(genotype, aes(x = V3, y = V1, color = genotypes_color,)) +
+ # geom_point() +
+ # scale_color_manual(labels = c("1", "0"), values = c("green", "orange")) +
+ # theme(axis.title.y = element_blank(),  # Remove y-axis title
+  #     axis.text.y = element_blank(),   # Remove y-axis labels
+   #    axis.ticks.y = element_blank(),  # Remove y-axis ticks
+    #   axis.line.y = element_blank()    # Remove y-axis line
+    #    ) + 
+    #     labs(
+     #      x = "Position"
+      #    ) +
+      #    facet_grid(genotype$V2 ~ genotype$V1, scales = "free_x", space = "free_x")
+
+ggplot(genotype, aes(x = V3, y = V1, color = factor(V4))) +
+  geom_point() +
+  scale_color_manual(name = "Genotype", labels = c("1", "0"), values = c("green", "orange")) +
+  labs(
+    x = "Position", 
+    y = "Sample"
+  ) +
+  facet_grid(. ~ V2, scales = "free_x", space = "free_x")
 
