@@ -1,0 +1,34 @@
+
+
+
+
+
+Analysis Type:	PANTHER Overrepresentation Test (Released 20240807)
+Annotation Version and Release Date:	GO Ontology database DOI:  10.5281/zenodo.16423886 Released 2025-07-22
+Analyzed List:	upload_1 (Drosophila melanogaster)
+Reference List:	Drosophila melanogaster (all genes in database)
+Test Type:	FISHER
+Correction:	FDR
+GO biological process complete	Drosophila melanogaster - REFLIST (13821)	upload_1 (48)	upload_1 (expected)	upload_1 (over/under)	upload_1 (fold Enrichment)	upload_1 (raw P-value)	upload_1 (FDR)
+regulation of systemic arterial blood pressure by circulatory renin-angiotensin (GO:0001991)	3	3	.01	+	 > 100	3.93E-08	2.85E-04
+regulation of systemic arterial blood pressure by hormone (GO:0001990)	3	3	.01	+	 > 100	3.93E-08	1.43E-04
+angiotensin maturation (GO:0002003)	3	3	.01	+	 > 100	3.93E-08	9.50E-05
+regulation of angiotensin levels in blood (GO:0002002)	3	3	.01	+	 > 100	3.93E-08	7.13E-05
+regulation of blood pressure (GO:0008217)	3	3	.01	+	 > 100	3.93E-08	5.70E-05
+endocrine process (GO:0050886)	3	3	.01	+	 > 100	3.93E-08	4.75E-05
+regulation of systemic arterial blood pressure by renin-angiotensin (GO:0003081)	3	3	.01	+	 > 100	3.93E-08	4.07E-05
+regulation of systemic arterial blood pressure (GO:0003073)	3	3	.01	+	 > 100	3.93E-08	3.56E-05
+regulation of systemic arterial blood pressure mediated by a chemical signal (GO:0003044)	3	3	.01	+	 > 100	3.93E-08	3.17E-05
+long-chain fatty acid biosynthetic process (GO:0042759)	5	2	.02	+	 > 100	1.17E-04	4.25E-02
+ceramide catabolic process (GO:0046514)	5	2	.02	+	 > 100	1.17E-04	4.05E-02
+mannose metabolic process (GO:0006013)	11	4	.04	+	 > 100	4.15E-08	3.01E-05
+blood circulation (GO:0008015)	9	3	.03	+	95.98	3.25E-06	1.82E-03
+peptide hormone processing (GO:0016486)	15	3	.05	+	57.59	1.74E-05	9.00E-03
+signaling receptor ligand precursor processing (GO:0140448)	16	3	.06	+	53.99	2.13E-05	1.03E-02
+sterol transport (GO:0015918)	16	3	.06	+	53.99	2.13E-05	9.67E-03
+peptide catabolic process (GO:0043171)	17	3	.06	+	50.81	2.58E-05	1.10E-02
+organic hydroxy compound transport (GO:0015850)	20	3	.07	+	43.19	4.30E-05	1.73E-02
+circulatory system process (GO:0003013)	23	3	.08	+	37.56	6.63E-05	2.53E-02
+peptide metabolic process (GO:0006518)	29	3	.10	+	29.79	1.35E-04	4.44E-02
+carbohydrate metabolic process (GO:0005975)	232	9	.81	+	11.17	8.60E-08	5.67E-05
+regulation of cellular process (GO:0050794)	4011	1	13.93	-	.07	2.88E-06	1.74E-03
