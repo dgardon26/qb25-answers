@@ -57,3 +57,13 @@ sorted_clusters <- kmeans_results$cluster[order(kmeans_results$cluster)]
 
 heatmap(sorted_combined, Rowv=NA, Colv=NA, RowSideColors=RColorBrewer::brewer.pal(12,"Paired")[sorted_clusters], ylab="Gene")
 
+# I will investigate cluster 2 and cluster 3.
+
+filtered_for_cluster_2 <- sorted_combined[sorted_combined[, "cluster_labels"] == 2, ]
+filtered_for_cluster_3 <- sorted_combined[sorted_combined[, "cluster_labels"] == 3, ]
+
+genes_in_cluster_2 <- rownames(filtered_for_cluster_2)
+genes_in_cluster_3 <- rownames(filtered_for_cluster_3)
+
+print(genes_in_cluster_2)
+print(genes_in_cluster_3)
