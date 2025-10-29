@@ -14,19 +14,15 @@ sorted_read_data_with_sd <- read_data_with_sd[order(-read_data_with_sd[,22]), ]
 filtered_read_data_with_sd <- head(sorted_read_data_with_sd, n = 500)
 flipped_filtered <- t(filtered_read_data_with_sd)
 
-#standardized_flipped_filtered <- scale(flipped_filtered)
-#print(standardized_flipped_filtered)
-
 pca_results = prcomp(flipped_filtered)
 pca_results$sdev
-
 
 pca_tibble_PC1_2 <- as_tibble(pca_results$x[,1:2], rownames = "Samples")
 split_sample_column <- pca_tibble_PC1_2 %>% tidyr::separate(Samples, into = c("Sample", "Replicate"), sep = "_")
 split_sample_column_without_sd <- filter(split_sample_column, Sample != "sd")
 
 fixed_data <- mutate(split_sample_column_without_sd, Sample = c(Sample[1:11], Sample[13], Sample[12], Sample[14:21]))
-fixed_data <- mutate(fixed_data, Sample = c(Sample[1:11], Sample[13], Sample[12], Sample[14:21]), Replicate = c(Replicate[1:11], Replicate[13], Replicate[12], Replicate[14:21]))
+fixed_data <- mutate(fixed_data, Replicate = c(Replicate[1:11], Replicate[13], Replicate[12], Replicate[14:21]))
 
 ggplot(data = fixed_data, aes(x = PC1, y = PC2, color = Sample, shape = Replicate)) +
   geom_point(size = 2)
@@ -38,3 +34,26 @@ pca_summary = tibble(PC=seq(1,pca_dimensions[2],1), sd=pca_results$sdev) %>%
 
 pca_summary %>% ggplot(aes(PC, sd)) +
   geom_col()
+
+combined = filtered_read_data_with_sd[,seq(1, 21, 3)]
+combined = combined + filtered_read_data_with_sd[,seq(2, 21, 3)]
+combined = combined + filtered_read_data_with_sd[,seq(3, 21, 3)]
+combined = combined / 3
+gene_sd <- rowSds(combined)
+combined <- cbind(combined, gene_sd)
+
+filtered_combined <- combined[combined[,"gene_sd"] > 1, ]
+
+set.seed(42)
+kmeans_results = kmeans(scale(as.matrix(filtered_combined)), centers=12, nstart=100)
+
+cluster_labels <- kmeans_results$cluster
+print(cluster_labels)
+
+filtered_combined <- cbind(filtered_combined, cluster_labels)
+sorted_combined <- filtered_combined[order(filtered_combined[, 9]), ]
+
+sorted_clusters <- kmeans_results$cluster[order(kmeans_results$cluster)]
+
+heatmap(sorted_combined, Rowv=NA, Colv=NA, RowSideColors=RColorBrewer::brewer.pal(12,"Paired")[sorted_clusters], ylab="Gene")
+
