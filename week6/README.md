@@ -7,14 +7,9 @@
 # whereas the issue with Fe and LFC.Fe is very distinct. It seems like two data points have been swapped
 # looking at the results, and if this is just a technical issue/mislabeled samples then 
 # swapping Fe Rep 1 and LFC.Fe Rep 3 would solve the problem.
+#
 
-# The first principal component seems to be separating primarily based on something that doesn't seem to cleanly 
-# be something like "ordering" of the tissue, as anterior > posterior direction seems cleanly 
-# plotted on PC2. Taking a glance at the paper, I'm wondering if it's separating based on 
-# expression of immune interactions with the microbiome, something shown in Figure 2E of the original
-# paper. The ordering here seems to be something like Cu > A1 > A2-3 > LFC-Fe/Fe > P1-4, which
-# would roughly reflect the patterning I see in that figure in the paper.
-
+# The first principal component seems to be separating based on anatomical order (anterior > posterior) in a very neat way. 
 # Question 3
 
 # The enrichment for Cluster 2 is centered around angiotensin and other related blood pressure genes, as well as endocrine
