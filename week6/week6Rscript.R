@@ -1,3 +1,7 @@
+# should have fixed the first issue - removed sd from PCA analysis
+# I think I have the right idea in terms of what I'm running the kmeans clustering on, but
+# I need to be starting that from using the fixed dataset.
+
 library(tidyr)
 library(dplyr)
 library(matrixStats)
@@ -12,7 +16,8 @@ t(sd)
 read_data_with_sd <- cbind(read_data, sd)
 sorted_read_data_with_sd <- read_data_with_sd[order(-read_data_with_sd[,22]), ]
 filtered_read_data_with_sd <- head(sorted_read_data_with_sd, n = 500)
-flipped_filtered <- t(filtered_read_data_with_sd)
+data_for_pca <- filtered_read_data_with_sd[,-22]
+flipped_filtered <- t(data_for_pca)
 
 pca_results = prcomp(flipped_filtered)
 pca_results$sdev
@@ -35,9 +40,10 @@ pca_summary = tibble(PC=seq(1,pca_dimensions[2],1), sd=pca_results$sdev) %>%
 pca_summary %>% ggplot(aes(PC, sd)) +
   geom_col()
 
-combined = filtered_read_data_with_sd[,seq(1, 21, 3)]
-combined = combined + filtered_read_data_with_sd[,seq(2, 21, 3)]
-combined = combined + filtered_read_data_with_sd[,seq(3, 21, 3)]
+colnames(data_for_pca)[c(12, 13)] <- colnames(data_for_pca)[c(13, 12)]
+combined = data_for_pca[,seq(1, 21, 3)]
+combined = combined + data_for_pca[,seq(2, 21, 3)]
+combined = combined + data_for_pca[,seq(3, 21, 3)]
 combined = combined / 3
 gene_sd <- rowSds(combined)
 combined <- cbind(combined, gene_sd)
@@ -65,5 +71,3 @@ filtered_for_cluster_3 <- sorted_combined[sorted_combined[, "cluster_labels"] ==
 genes_in_cluster_2 <- rownames(filtered_for_cluster_2)
 genes_in_cluster_3 <- rownames(filtered_for_cluster_3)
 
-print(genes_in_cluster_2)
-print(genes_in_cluster_3)
