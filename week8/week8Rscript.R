@@ -142,3 +142,5 @@ results_sex <- results_sex %>% mutate(significant_and_positive = case_when(padj 
 ggplot(data = results_sex, aes(x = log2FoldChange, y = -log10(pvalue), color = significant_and_positive)) +
   geom_point()
 
+
+
