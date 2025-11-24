@@ -137,9 +137,9 @@ print(filtered_for_value_sex2)
 
 # Step 3
 
-results_sex <- results_sex %>% mutate(significant_and_positive = case_when(padj < 0.1 & log2FoldChange > 1 ~ TRUE,
+results_sex <- results_sex %>% mutate(significant_and_positive = case_when(padj < 0.1 & (log2FoldChange < -1 | log2FoldChange > 1) ~ TRUE,
                                                          TRUE ~ FALSE)) # got this idea from Google AI search
-ggplot(data = results_sex, aes(x = log2FoldChange, y = -log10(pvalue), color = significant_and_positive)) +
+ggplot(data = results_sex, aes(x = log2FoldChange, y = -log10(pvalue), color = significant_and_more_than_1)) +
   geom_point()
 
 
