@@ -177,13 +177,12 @@ gap_sequence_2 = sequence2_alignment.count('-')
 percent_sequence_1 = (identity_alignment.count("|")/len(sequence1)) * 100
 percent_sequence_2 = (identity_alignment.count("|")/len(sequence2)) * 100
 
-alignment_score = 0
 
-for i in range(0, len(sequence1_alignment)):
-	if sequence1_alignment[i] == "-" or sequence2_alignment == "-":
-		continue
-	else:
-		alignment_score += sigma[(nucleotide1, nucleotide2)]
+numRows = len(F_matrix)
+print(numRows)
+numCols = len(F_matrix[0])
+print(numCols)
+alignment_score = F_matrix[(numRows - 1), (numCols - 1)]
 
 
 #======================#
